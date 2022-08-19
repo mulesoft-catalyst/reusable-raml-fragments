@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<records>
+  <record>
+    <recordId>123</recordId>
+    <code>RESOURCE_CREATED</code>
+    <message>Record created</message>
+  </record>
+  <record>
+    <recordId>123</recordId>
+    <code>RESOURCE_CREATED</code>
+    <message>Record created</message>
+  </record>
+</records>

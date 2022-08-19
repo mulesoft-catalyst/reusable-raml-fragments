@@ -1,0 +1,12 @@
+#%RAML 1.0 Trait
+queryParameters:
+  select: 
+    type: string
+    required: false
+    description: List of fields to be fetched for given entity
+    example: "orderId, OrderType, OrderAmount, OrderStatus"
+  filter: 
+    type: string
+    required: false
+    description: Filter criteria to be used while querying given entity
+    example: "orderType eq 'open' and orderStatus eq 'active'"

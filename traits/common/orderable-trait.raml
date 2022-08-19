@@ -1,0 +1,14 @@
+#%RAML 1.0 Trait
+  queryParameters:
+    orderBy: 
+      type: string
+      required: true
+      description: Field to be used to order records
+      example: "orderId"
+    orderType: 
+      type: string
+      enum: [desc, asc]
+      default: desc
+      required: true
+      description: Order sequence
+      example: "desc"

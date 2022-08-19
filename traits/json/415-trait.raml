@@ -1,0 +1,7 @@
+#%RAML 1.0 Trait
+    responses:
+      415:
+        body:
+          application/json:
+            type: !include ../../data-types/standard-response-type.raml
+            example: !include ../../examples/fault/415-example.raml

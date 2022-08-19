@@ -1,0 +1,36 @@
+#%RAML 1.0 Trait
+usage: Error Responses
+
+responses: 
+  400:
+    description: Error is a bad request on the payload, querystring, or headers.
+    body:
+      application/json:
+  401:
+    description: Login credentials are invalid
+    body:
+      application/json:
+  403:
+    description: The credentials are valid, but the authorization was refused.
+  404:
+    description: The API resource was not found
+    body:
+      application/json:
+  405:
+    description: The resource exists but doesn't support the method
+    body:
+      application/json: 
+  406:
+    description: The request is not supported
+    body:
+      application/json:
+  415:
+    description: Accept media type is not supported
+    body:
+      application/json: 
+  429:
+  	description: The request was rejected because there were too many requests within the timeframe
+  500:
+    description: Something went wrong with the request.
+    body:
+      application/json:

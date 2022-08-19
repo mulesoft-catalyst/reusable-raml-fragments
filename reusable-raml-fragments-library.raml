@@ -1,0 +1,126 @@
+#%RAML 1.0 Library
+usage: Common RAML Fragments to standardise implementation of common aspects of RAML API Specifications.
+
+#Ensure no existing traits or datatypes are updated with a breaking change if possible, they could be used by any number of services that could be affected. Ensure to use semantic versioning when publishing this fragment.
+
+traits:
+  x-source-system: !include traits/common/x-source-system-trait.raml
+  pageable: !include traits/common/pageable-trait.raml
+  sortable: !include traits/common/sortable-trait.raml
+  #There are 2 Rate Limited Traits here as they both specify a different success HTTP Code. Use as needed on the correct methods e.g. 200 for GET and 201 for POST.
+  rate-limited-200: !include traits/common/rate-limited-200-trait.raml
+  rate-limited-201: !include traits/common/rate-limited-201-trait.raml
+  correlation-id: !include traits/common/correlation-id-trait.raml
+  client-id-required: !include traits/common/client-id-trait.raml
+  success-200: !include traits/json/200-trait.raml
+  success-201: !include traits/json/201-trait.raml
+  success-201-collection: !include traits/json/201-collection-trait.raml
+  success-202: !include traits/json/202-trait.raml
+  fault-400: !include traits/json/400-trait.raml
+  fault-401: !include traits/json/401-trait.raml
+  fault-404: !include traits/json/404-trait.raml
+  fault-405: !include traits/json/405-trait.raml
+  fault-406: !include traits/json/406-trait.raml
+  fault-415: !include traits/json/415-trait.raml
+  fault-500: !include traits/json/500-trait.raml
+  fault-501: !include traits/json/501-trait.raml
+  healthCheck-200: !include traits/json/200-trait.raml  
+  success-batch-201: !include traits/json/201-batch-trait.raml
+  content-type-required: !include traits/common/content-type-required-trait.raml
+  accept-required: !include traits/common/accept-required-trait.raml
+  client-authorization-required: !include traits/common/client-authorization-required-trait.raml
+  error-responses: !include traits/common/error-response-trait.raml 
+
+   
+ 
+
+
+securitySchemes:
+      basic-authentication: !include security-schemes/basic-authentication.raml
+      oauth_2_0: !include security-schemes/oauth.raml  
+      client-enforcement: !include security-schemes/client-enforcement.raml  
+ 
+resourceTypes:
+  health-check:
+    usage: Use this resource to check health of Mulesoft application
+    description: Entity representing a Mulesoft application health check
+    get:
+      description: Get health of an application
+      is: [client-id-required, healthCheck-200, fault-400, fault-401, fault-404, fault-405, fault-406, fault-415, fault-500, fault-501]  
+  batch-job:
+    post:
+      description: Create a new batch job for <<resourcePathName|!singularize>> 
+      body:
+        application/json:
+          type: <<resourcePathName|!singularize>>
+      is: [client-id-required, success-batch-201, fault-400, fault-401, fault-404, fault-405, fault-406, fault-415, fault-500, fault-501] 
+  collection:
+    usage: Use this resourceType to represent any collection of items
+    description: A collection of <<resourcePathName |!singularize>>
+    get:
+      description: Get all <<resourcePathName>>, optionally filtered 
+      responses:
+        200:
+          body:
+            application/json:
+              type: <<resourcePathName>>[]
+              example: <<example-ref2>>
+
+      is: [client-id-required, correlation-id, fault-400, fault-401, fault-404, fault-405, fault-406, fault-415, fault-500, fault-501]
+
+    post:
+      description: Create one or more new <<resourcePathName>> 
+      body:
+        application/json:
+          type: <<resourcePathName>>[]
+          example: <<example-ref2>>
+
+      is: [client-id-required, correlation-id, fault-501, success-201-collection, fault-400, fault-401, fault-404, fault-405, fault-406, fault-415, fault-500]   
+  
+  collection-item:
+    usage: Use this resourceType to represent any single item
+    description: Entity representing a <<resourcePathName|!singularize>>
+    get:
+      description: Get <<resourcePathName|!singularize>>
+      responses:
+        200:
+          body:
+            application/json:
+              type: <<resourcePathName|!singularize>>
+              example: <<example-ref>>   
+
+      is: [client-id-required, correlation-id, fault-400, fault-401, fault-404, fault-405, fault-406, fault-415, fault-500, fault-501]
+
+    post:
+      description: Create new <<resourcePathName|!singularize>> record
+      body:
+        application/json:
+          type: <<resourcePathName|!singularize>>
+          example: <<example-ref>>
+
+      is: [client-id-required, correlation-id, fault-501, success-201, fault-400, fault-401, fault-404, fault-405, fault-406, fault-415, fault-500]
+
+    patch:
+      description: Update <<resourcePathName|!singularize>> record partially
+      body:
+        application/json:
+          type: <<resourcePathName|!singularize>>
+          example: <<example-ref>>
+
+      is: [client-id-required, correlation-id, fault-501, success-200, fault-400, fault-401, fault-404, fault-405, fault-406, fault-415, fault-500]     
+
+    put:
+      description: Update <<resourcePathName|!singularize>> record entirely
+      body:
+        application/json:
+          type: <<resourcePathName|!singularize>>
+          example: <<example-ref>>
+
+      is: [client-id-required, correlation-id, fault-501, success-200, fault-400, fault-401, fault-404, fault-405, fault-406, fault-415, fault-500, fault-501]
+
+    delete:
+      description: Delete <<resourcePathName|!singularize>> record
+      is: [client-id-required, correlation-id, success-200, fault-400, fault-401, fault-404, fault-405, fault-406, fault-415, fault-500, fault-501]
+
+
+

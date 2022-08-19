@@ -1,0 +1,8 @@
+#%RAML 1.0 Trait
+usage: Client Authorization Required Trait
+    
+headers:
+  Authorization:
+    type: string
+    pattern: ^Bearer [A-Z-a-z0-9-_=]*$
+    example: Bearer ABCdEFG1HIJkLMnoPQRsT2UvWXy3ZAbcDEF4GHIjKlMnOPqrStUvWxYzABc5DEFghIJkLMNoPqR6STUvWXYzABC7De
